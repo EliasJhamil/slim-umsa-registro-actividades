@@ -1,0 +1,131 @@
+/* ── Navbar ───────────────────────────────────────────── */
+.navbar {
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 56px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.nav-brand { font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; }
+.nav-links { display: flex; gap: 8px; }
+.nav-links a {
+  color: rgba(255,255,255,0.85);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+.nav-links a:hover { background: rgba(255,255,255,0.15); color: #fff; text-decoration: none; }
+
+/* ── Container ────────────────────────────────────────── */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 20px;
+}
+
+/* ── Page header ──────────────────────────────────────── */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.page-header h2, .page-header h3 { color: var(--color-primary); }
+
+/* ── Stats grid ───────────────────────────────────────── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+/* ── Acciones rápidas ─────────────────────────────────── */
+.acciones-rapidas {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+/* ── Filtro periodo ───────────────────────────────────── */
+.filtro-periodo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.filtro-periodo input { width: auto; margin-bottom: 0; }
+
+/* ── Beneficiarios grid (formulario) ─────────────────── */
+.beneficiarios-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.beneficiarios-grid input { margin-bottom: 0; }
+
+/* ── Territorio grid ──────────────────────────────────── */
+.territorio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 16px;
+}
+
+/* ── Periodo badge ────────────────────────────────────── */
+.periodo-badge {
+  display: inline-block;
+  background: var(--color-secondary);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+}
+
+/* ── Login ────────────────────────────────────────────── */
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+}
+.login-card {
+  background: var(--color-surface);
+  padding: 40px;
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+.login-card h1 {
+  text-align: center;
+  color: var(--color-primary);
+  font-size: 1.8rem;
+  margin-bottom: 6px;
+}
+.login-sub {
+  text-align: center;
+  color: var(--color-muted);
+  margin-bottom: 28px;
+  font-size: 0.9rem;
+}
+.login-card .btn { width: 100%; margin-top: 8px; padding: 11px; font-size: 1rem; }
+
+/* ── Responsive básico ────────────────────────────────── */
+@media (max-width: 640px) {
+  .nav-links { gap: 2px; }
+  .nav-links a { padding: 5px 7px; font-size: 0.8rem; }
+  .beneficiarios-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}

@@ -1,0 +1,84 @@
+services:
+
+  # ─────────────────────────────────────────
+  # BASE DE DATOS
+  # ─────────────────────────────────────────
+  postgres:
+    image: postgres:15-alpine          # Alpine = imagen mínima (~80MB)
+    container_name: slim_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data   # datos persistentes
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql  # semilla
+    networks:
+      - slim_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─────────────────────────────────────────
+  # BACKEND — FastAPI
+  # ─────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: slim_backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      SECRET_KEY: ${SECRET_KEY}
+      ALGORITHM: ${ALGORITHM}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES}
+      REFRESH_TOKEN_EXPIRE_DAYS: ${REFRESH_TOKEN_EXPIRE_DAYS}
+      ENVIRONMENT: ${ENVIRONMENT}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
+    volumes:
+      - ./backend:/app                 # hot-reload en desarrollo
+      - uploads_data:/app/uploads      # archivos subidos
+    depends_on:
+      postgres:
+        condition: service_healthy     # espera a que PG esté listo
+    ports:
+      - "8001:8000"                    # backend en http://localhost:8001
+    networks:
+      - slim_network
+
+  # ─────────────────────────────────────────
+  # REVERSE PROXY — Nginx
+  # ─────────────────────────────────────────
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: slim_nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"                      # frontend en http://localhost:8080
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro   # frontend estático (read-only)
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+    networks:
+      - slim_network
+
+# ─────────────────────────────────────────
+# VOLÚMENES PERSISTENTES
+# ─────────────────────────────────────────
+volumes:
+  postgres_data:    # datos de PostgreSQL sobreviven reinicios
+  uploads_data:     # archivos subidos por usuarios
+
+# ─────────────────────────────────────────
+# RED INTERNA
+# ─────────────────────────────────────────
+networks:
+  slim_network:
+    driver: bridge  # red privada entre contenedores
