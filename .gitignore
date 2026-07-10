@@ -1,14 +1,16 @@
 # ── Secretos — NUNCA al repositorio ────
-.env
-*.env
+# .env se subirá porque el servidor lo pidió
+# .env
+# *.env
 !.env.example
 
 # ── Python ──────────────────────────────
 __pycache__/
 *.py[cod]
 *.pyo
-.venv/
-venv/
+# .env se subirá porque el servidor lo pidió
+# .env
+# *.env
 *.egg-info/
 dist/
 build/
