@@ -1,44 +1,140 @@
+/* ════════════════════════════════════════════════════════════════
+   base.css — tokens de diseño + reset + tipografía
+   Paleta: Serene Skytones
+   havelock #4b91e2 · seagull #7db2e8 · regent #a3c2e0
+   link water #d2e8f4 · polar #f3f8fc
+════════════════════════════════════════════════════════════════ */
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --color-primary:   #1a4a8a;
-  --color-secondary: #2d7dd2;
-  --color-success:   #28a745;
-  --color-danger:    #dc3545;
-  --color-warning:   #ffc107;
-  --color-bg:        #f4f6f9;
+  /* ── Paleta Serene Skytones ── */
+  --sky-500: #4b91e2;   /* havelock blue  → color primario */
+  --sky-400: #7db2e8;   /* seagull        → secundario / hovers */
+  --sky-300: #a3c2e0;   /* regent st blue → bordes y detalles */
+  --sky-200: #d2e8f4;   /* link water     → fondos suaves */
+  --sky-100: #f3f8fc;   /* polar          → fondo de página */
+
+  /* Tinta derivada de la misma familia de azules (texto) */
+  --ink:       #1c3a5e;
+  --ink-soft:  #56718f;
+  --ink-faint: #7e94ad;
+
+  /* Estados funcionales, suavizados hacia la paleta */
+  --success: #3aa06f;
+  --danger:  #d9596b;
+  --warning: #e0a63d;
+  --teal:    #3e9fae;
+
+  /* ── Alias de compatibilidad (usados por app.js / css previos) ── */
+  --color-primary:   var(--sky-500);
+  --color-secondary: var(--sky-400);
+  --color-success:   var(--success);
+  --color-danger:    var(--danger);
+  --color-warning:   var(--warning);
+  --color-bg:        var(--sky-100);
   --color-surface:   #ffffff;
-  --color-text:      #1a1a2e;
-  --color-muted:     #6c757d;
-  --radius:          8px;
-  --shadow:          0 2px 8px rgba(0,0,0,0.1);
+  --color-text:      var(--ink);
+  --color-muted:     var(--ink-soft);
+
+  --blue:      var(--sky-500);
+  --blue-2:    var(--sky-400);
+  --navy:      var(--ink);
+  --off-white: var(--sky-100);
+  --green:     var(--success);
+  --red:       var(--danger);
+  --yellow:    var(--warning);
+
+  --grey-50:  var(--sky-100);
+  --grey-100: #e9f2fa;
+  --grey-200: var(--sky-200);
+  --grey-300: var(--sky-300);
+  --grey-400: var(--ink-faint);
+  --grey-500: var(--ink-soft);
+
+  /* ── Tipografía ── */
+  --font-display: "Syne", "DM Sans", system-ui, sans-serif;
+  --font-body:    "DM Sans", "Segoe UI", system-ui, sans-serif;
+
+  /* ── Superficies ── */
+  --radius:    12px;
+  --radius-lg: 18px;
+  --shadow:    0 2px 10px rgba(28, 58, 94, .07);
+  --shadow-lg: 0 16px 44px rgba(28, 58, 94, .12);
+  --border:    1px solid var(--sky-200);
 }
+
+html { -webkit-text-size-adjust: 100%; }
 
 body {
-  font-family: "Segoe UI", system-ui, sans-serif;
-  background: var(--color-bg);
-  color: var(--color-text);
+  font-family: var(--font-body);
+  background: var(--sky-100);
+  color: var(--ink);
   min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-a { color: var(--color-secondary); text-decoration: none; }
+h1, h2, h3, h4,
+.page-title, .landing-h1, .card-title, .modal-title,
+.stat-value, .landing-form-title, .section-title, .empty-state-title {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+a { color: var(--sky-500); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
+/* ── Formularios base ── */
 input, select, textarea {
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
+  padding: 11px 13px;
+  border: 1.5px solid var(--sky-300);
   border-radius: var(--radius);
   font-size: 0.95rem;
+  font-family: var(--font-body);
+  background: #ffffff;
+  color: var(--ink);
   margin-bottom: 12px;
+  transition: border-color .15s ease, box-shadow .15s ease;
 }
+input::placeholder, textarea::placeholder { color: var(--ink-faint); }
 input:focus, select:focus, textarea:focus {
   outline: none;
-  border-color: var(--color-secondary);
+  border-color: var(--sky-500);
+  box-shadow: 0 0 0 4px var(--sky-200);
 }
 textarea { min-height: 80px; resize: vertical; }
-label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.9rem; }
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+  color: var(--ink);
+}
+
+/* Foco visible para navegación con teclado */
+button:focus-visible, a:focus-visible,
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--sky-400);
+  outline-offset: 2px;
+}
 
 .hidden { display: none !important; }
-.error-msg { color: var(--color-danger); font-size: 0.9rem; margin-top: 8px; }
-.empty { color: var(--color-muted); padding: 24px; text-align: center; }
+.error-msg { color: var(--danger); font-size: 0.9rem; margin-top: 8px; }
+.empty { color: var(--ink-soft); padding: 24px; text-align: center; }
+
+.campo-error {
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 4px rgba(217, 89, 107, .14) !important;
+}
+
+/* Respeto por usuarios que prefieren menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

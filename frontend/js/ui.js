@@ -117,9 +117,12 @@ ${body.replace(/<[^>]*>/g, "")}` : body.replace(/<[^>]*>/g, ""));
 
     topbar.classList.remove("hidden");
     topbar.innerHTML = `
-      <div>
-        <div id="topbar-title" class="topbar-title">SLIM-UMSA</div>
-        <div class="topbar-subtitle">${user.rol === "ADMIN" ? "Administrador" : "Estudiante"}</div>
+      <div class="flex items-center gap-1">
+        <button type="button" class="menu-toggle" id="menu-btn" title="Menú" aria-label="Abrir menú">☰</button>
+        <div>
+          <div id="topbar-title" class="topbar-title">SLIM-UMSA</div>
+          <div class="topbar-subtitle">${user.rol === "ADMIN" ? "Administrador" : "Estudiante"}</div>
+        </div>
       </div>
       <div class="topbar-actions">
         <div class="periodo-control">
@@ -179,6 +182,14 @@ ${body.replace(/<[^>]*>/g, "")}` : body.replace(/<[^>]*>/g, ""));
     });
 
     document.getElementById("logout-btn")?.addEventListener("click", Auth.logout);
+
+    // Menú lateral en móvil (solo capa visual, sin lógica de negocio)
+    document.getElementById("menu-btn")?.addEventListener("click", () => {
+      document.body.classList.toggle("sidebar-open");
+    });
+    document.getElementById("sidebar-backdrop")?.addEventListener("click", () => {
+      document.body.classList.remove("sidebar-open");
+    });
   }
 
   function renderSidebar(user) {
@@ -225,8 +236,16 @@ ${body.replace(/<[^>]*>/g, "")}` : body.replace(/<[^>]*>/g, ""));
       </nav>
     `;
 
+    // Resaltar la sección activa según la ruta actual
+    const rutaActual = window.location.hash.replace(/^#/, "");
     sidebar.querySelectorAll("[data-route]").forEach(el => {
-      el.addEventListener("click", () => Router.navigate(el.dataset.route));
+      if (rutaActual && rutaActual.startsWith(el.dataset.route)) {
+        el.classList.add("active");
+      }
+      el.addEventListener("click", () => {
+        document.body.classList.remove("sidebar-open");
+        Router.navigate(el.dataset.route);
+      });
     });
   }
 
