@@ -191,7 +191,12 @@
   height: 60vh;
   gap: 16px;
   color: var(--ink-soft);
+  /* Invisible el primer cuarto de segundo: si los datos llegan rápido,
+     el usuario nunca ve el spinner y desaparece el "parpadeo" entre vistas */
+  opacity: 0;
+  animation: loadingReveal .2s ease .25s forwards;
 }
+@keyframes loadingReveal { to { opacity: 1; } }
 .spinner {
   width: 42px;
   height: 42px;
