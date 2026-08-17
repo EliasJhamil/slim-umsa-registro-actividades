@@ -12,6 +12,7 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/docs" if not settings.is_production else None,
     redoc_url="/redoc" if not settings.is_production else None,
+    redirect_slashes=False,
 )
 
 # ── CORS ─────────────────────────────────────────────────

@@ -5,7 +5,7 @@
 const CONFIG = {
   // En producción Nginx redirige /api/* al backend automáticamente.
   // No se necesita URL absoluta — la ruta relativa funciona en cualquier servidor.
-  API_BASE: "/api",
+  API_BASE: "/segunda_app/api",
 
   // Clave para guardar tokens en sessionStorage
   // (se limpian al cerrar el navegador)

@@ -56,6 +56,17 @@ def eliminar_municipio(
     db.delete(obj)
     db.commit()
 
+@router.post("/municipios", response_model=MunicipioOut, status_code=201)
+def crear_municipio(
+    data: MunicipioCreate,
+    db: Session = Depends(get_db),
+    _: Usuario = Depends(require_admin), # o require_user_active según los permisos que necesites
+):
+    nuevo_municipio = Municipio(**data.model_dump())
+    db.add(nuevo_municipio)
+    db.commit()
+    db.refresh(nuevo_municipio)
+    return nuevo_municipio
 
 # ── Comunidades ──────────────────────────────────────────
 @router.get("/comunidades", response_model=List[ComunidadOut])

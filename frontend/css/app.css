@@ -1071,4 +1071,22 @@ textarea:focus {
     color: #73829a;
     margin: 0;
   }
+  /* ── FIX: campo contraseña + botón Ver (login) ─────────── */
+  div:has(> #l-pw) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  #l-pw {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    width: auto !important;
+    margin-bottom: 0 !important;
+  }
+  #toggle-pw {
+    flex: 0 0 auto !important;
+    width: auto !important;
+  max-width: 90px;
+  }
 }
