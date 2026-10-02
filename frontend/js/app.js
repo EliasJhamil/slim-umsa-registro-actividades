@@ -1219,6 +1219,13 @@ Router.register('/estudiante/prevencion/listado', async () => {
         <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">
           ${r.participantes || '—'}
         </td>
+	<td>
+          <div class="flex gap-1">
+            <button class="btn btn-ghost btn-sm btn-icon edit-btn" data-id="${r.id}">✏️</button>
+            <button class="btn btn-danger btn-sm btn-icon del-btn" data-id="${r.id}">🗑️</button>
+          </div>
+        </td>
+      </tr>
     `).join('');
 
     UI.render(`
